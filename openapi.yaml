@@ -1,0 +1,147 @@
+openapi: 3.0.3
+info:
+  title: Akamai BMP Generator
+  description: |-
+    Generates Akamai x-acf-sensor-data headers for all mobile apps on all websites.
+    
+    This is a demo page where you can generate an x-acf-sensor-data header for the app you need and test it right away with ready-made examples of different apps or perform an iOS request with the generated header yourself.
+    For self-testing on this page, contact me on Telegram @god_reverse and you will get a key that allows you to create 10 headers.
+    
+    
+    You can also purchase a full-fledged project that will allow you to generate an unlimited number of Akamai headers for simultaneous use. The project supports most Akamai versions. After purchase, you will receive a jar file where you will need to specify the required parameters depending on the version of Akamai in your app. You will also get a ready-to-use server with no request limits.
+    
+    Some useful links:
+    - [GitHub demo version](https://github.com/reverse-god/akamai-sensordata/tree/master)
+    - [Telegram](https://t.me/god_reverse)
+  version: 1.0.0
+servers:
+  - url: http://78.153.149.41:3000
+tags:
+  - name: BMP
+    description: Operations generated BMP data
+  - name: ebay
+    description: Login to ebay
+paths:
+  /generate/bmp:
+    post:
+      tags:
+        - BMP
+      summary: Generate BMP data any app
+      description: Generate BMP data for a given app
+      operationId: generateBmp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                AppName:
+                  type: string
+                  example: "com.ebaykleinanzeigen.ebc"
+                AppVersion:
+                  type: string
+                  example: "15.16.0"
+                AkamaiVersion:
+                  type: string
+                  example: "3.3.5"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  GenerateData:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          description: Invalid request
+      security:
+        - api_key: []
+  /bmp/get/{appName}:
+    get:
+      tags:
+        - BMP
+      summary: Get BMP data for an app
+      description: Get BMP data for a specified app
+      operationId: getBmpData
+      parameters:
+        - name: appName
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - ebay
+              - zara
+              - ihg
+          description: The name of the app to get BMP data for
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  GenerateData:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          description: Invalid request
+      security:
+        - api_key: []
+  /ebay/login:
+    post:
+      tags:
+        - ebay
+      summary: Login to eBay
+      description: Login to eBay with username and password
+      operationId: ebayLogin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "jddkkfkf@dkd.djd"
+                password:
+                  type: string
+                  example: "dndjdj"
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Login successful"
+        '400':
+          description: invalid_grant
+      security:
+        - api_key: []
+      parameters:
+        - name: x-acf-sensor-data
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Sensor data required for login
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: x-api-key
+security:
+  - api_key: []

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMP Api</title>
+  <link rel="stylesheet" type="text/css" href="./Swagger UI_files/swagger-ui.css">
+</head>
+<body>
+  <div id="swagger-ui"></div>
+
+  <script src="./Swagger UI_files/swagger-ui-bundle.js.download"></script>
+  <script src="./Swagger UI_files/swagger-ui-standalone-preset.js.download"></script>
+  <script>
+    window.onload = function() {
+      const ui = SwaggerUIBundle({
+        url: "openapi.yaml", 
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        layout: "StandaloneLayout"
+      })
+      window.ui = ui
+    }
+  </script>
+</body>
+</html>
